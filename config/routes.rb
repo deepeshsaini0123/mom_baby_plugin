@@ -13,5 +13,6 @@ Discourse::Application.routes.append do
 
   # Admin User Api's
   post "/create_admin_user" => "admin_user#create_admin_user"
+  post "/create_new_user" => "admin_user#create_new_user"
   get "/list_admin_user" => "admin_user#list_admin_user"
 end
