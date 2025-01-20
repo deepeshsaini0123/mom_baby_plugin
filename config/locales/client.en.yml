@@ -1,0 +1,9 @@
+en:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          mom_and_baby_community_plugin: "Mom And Baby Community Plugin"
+  js:
+    mom_and_baby_community_plugin:
+      placeholder: placeholder

@@ -1,0 +1,4 @@
+mom_and_baby_community_plugin:
+  mom_and_baby_community_plugin_enabled:
+    default: false
+    client: true
