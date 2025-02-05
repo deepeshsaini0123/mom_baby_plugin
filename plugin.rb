@@ -4,7 +4,7 @@
 # about: TODO
 # meta_topic_id: TODO
 # version: 0.0.1
-# authors: Discourse
+# authors: Humanx
 # url: TODO
 # required_version: 2.7.0
 
@@ -30,4 +30,5 @@ after_initialize do
   ::ApplicationController.class_eval do
     include ::UserPatch
   end
+
 end
