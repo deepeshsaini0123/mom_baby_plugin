@@ -91,7 +91,9 @@ class TopicsListSerializer < ::ApplicationSerializer
   end
 
   def liked_by_user
-    scope.user&.username rescue nil
+    if scope.user.present?
+      scope.user&.username rescue nil
+    end
   end
 
   def include_participant_groups?

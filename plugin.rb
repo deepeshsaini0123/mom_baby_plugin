@@ -19,6 +19,7 @@ require_relative "lib/mom_and_baby_community_plugin/engine"
 after_initialize do
   load File.expand_path('config/routes.rb', __dir__)
 
+
   # Apply the patch to ApplicationController
   require_dependency File.expand_path("../lib/application_controller_patch.rb", __FILE__)
   ::ApplicationController.class_eval do

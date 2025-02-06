@@ -1,7 +1,11 @@
 module UserPatch
-    def self.included(base)
-      base.class_eval do
+  def self.included(base)
+    base.class_eval do
 
-      end
+      # User model changes should be here
+      # def username        
+
+      # end
     end
   end
+end
