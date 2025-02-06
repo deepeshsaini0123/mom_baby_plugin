@@ -5,14 +5,6 @@ Discourse::Application.routes.append do
   post "/create_new_user" => "admin_user#create_new_user"
   get "/list_admin_user" => "admin_user#list_admin_user"
 
-  get "mom_verse/post" => "post#index" # post
-  get "mom_verse/latest" => "post#latest" # latest_post
-  get "mom_verse/popular" => "post#hot" # post for me
-  get "mom_verse/top" => "post#top" # post for me
-  get "mom_verse/tranding" => "post#hot" # tranding post
-
-  get "mom_verse/latest_feed" => "post#latest_feed" # tranding post
-
   get "mom_verse/categories" => "mom_verse_category#index"
   get "mom_verse/topics" => "mom_verse_category#topics_list"
 
@@ -29,8 +21,16 @@ Discourse::Application.routes.append do
       get :get_list
     end
 
-    resources :topic, only: [:index, :show, :create, :update, :destroy] do
+    resources :topic, only: [:index] do
       get :get_list
     end
+
+    # Additional topic-related routes
+    get "latest", to: "topic#latest"
+    get "popular", to: "topic#hot"
+    get "top", to: "topic#top"
+    get "tranding", to: "topic#hot"
+    get "latest_feed", to: "topic#latest_feed"
+    get "show/:id", to: "topic#show"
   end
 end

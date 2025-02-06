@@ -1,3 +1,4 @@
 class MomVerseTopicSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :created_at, :updated_at
+  attributes :id, :title, :created_at, :updated_at
+  has_many :posts, serializer: MomVersePostSerializer, embed: :objects
 end
