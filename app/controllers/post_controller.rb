@@ -1,4 +1,5 @@
-class MomVersePostController < ::ApplicationController
+class PostController < ::ApplicationController
+
   include TopicListResponder
   attr_accessor :current_user
 
@@ -10,7 +11,6 @@ class MomVersePostController < ::ApplicationController
     respond_to do |format|
       format.json { render_serialized(list, PostListSerializer) }
     end
-
   end
 
   def latest
@@ -110,30 +110,6 @@ class MomVersePostController < ::ApplicationController
     list.more_topics_url = construct_url_with(:next, list_opts)
     list.prev_topics_url = construct_url_with(:prev, list_opts)
 
-    if Discourse.anonymous_filters.include?(filter)
-      @description = SiteSetting.site_description
-      @rss = filter
-      @rss_description = filter
-
-      # Note the first is the default and we don't add a title
-      if (filter.to_s != current_homepage) && use_crawler_layout?
-        filter_title = I18n.t("js.filters.#{filter}.title", count: 0)
-
-        if list_opts[:category] && @category
-          @title =
-            I18n.t("js.filters.with_category", filter: filter_title, category: @category.name)
-        else
-          @title = I18n.t("js.filters.with_topics", filter: filter_title)
-        end
-
-        @title << " - #{SiteSetting.title}"
-      elsif @category.blank? && (filter.to_s == current_homepage) &&
-            SiteSetting.short_site_description.present?
-        @title = "#{SiteSetting.title} - #{SiteSetting.short_site_description}"
-      end
-    end
-
-    # render json: { topic: render_serialized(list, PostListSerializer) }
     respond_to do |format|
       format.json { render_serialized(list, PostListSerializer) }
     end

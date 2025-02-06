@@ -6,7 +6,7 @@ class PostListSerializer < ::ApplicationSerializer
              :page,
              :top_tags,
              :tags,
-             :current_user_values,
+             :current_user_name,
              :shared_drafts
 
   has_many :topics, serializer: TopicsListSerializer, embed: :objects
@@ -20,8 +20,8 @@ class PostListSerializer < ::ApplicationSerializer
     scope.can_create?(Topic)
   end
 
-  def current_user_values
-    scope.current_user.id rescue nil
+  def current_user_name
+    scope.current_user.username rescue nil
   end
 
   def include_shared_drafts?

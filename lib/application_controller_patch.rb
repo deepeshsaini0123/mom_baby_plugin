@@ -5,12 +5,10 @@ module ApplicationControllerPatch
       before_action :check_and_set_current_user
 
       def handle_unverified_request
-
-        # Example: Add a custom header or log a message
-        Rails.logger.info "MyPlugin: Before action hook triggered."
       end
 
       def check_and_set_current_user
+        # Need to add logic
       end
     end
   end
