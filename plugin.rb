@@ -32,4 +32,10 @@ after_initialize do
     include ::UserPatch
   end
 
+  # Apply the patch to Default Current User Provider
+  require_dependency File.expand_path("../lib/default_current_user_provider_patch.rb", __FILE__)
+  ::Auth::DefaultCurrentUserProvider.class_eval do
+    include ::DefaultCurrentUserProviderPatch
+  end
+
 end

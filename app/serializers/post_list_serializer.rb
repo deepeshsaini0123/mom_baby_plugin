@@ -7,6 +7,7 @@ class PostListSerializer < ::ApplicationSerializer
              :top_tags,
              :tags,
              :current_user_name,
+             :include_categories,
              :shared_drafts
 
   has_many :topics, serializer: TopicsListSerializer, embed: :objects
@@ -44,7 +45,7 @@ class PostListSerializer < ::ApplicationSerializer
     SiteSetting.tagging_enabled && object.tags.present?
   end
 
-  def include_categories?
+  def include_categories
     scope.can_lazy_load_categories?
   end
 
