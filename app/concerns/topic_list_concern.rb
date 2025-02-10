@@ -1,13 +1,6 @@
 module TopicListConcern
   extend ActiveSupport::Concern
 
-  included do
-  end
-
-  def set_current_user
-  end
-
-
   def next_page_params
     page_params.merge(page: params[:page].to_i + 1)
   end
@@ -23,10 +16,14 @@ module TopicListConcern
 
   private
 
+  def get_all_topics
+    Topic.includes(:posts).all
+  end
+
   def get_discourse_response(filter = 'latest')
     list_opts = build_topic_list_options
     user = list_target_user
-    list = TopicQuery.new(user, list_opts).public_send("list_latest")
+    list = TopicQuery.new(user, list_opts).public_send("list_#{filter}")
     if guardian.can_create_shared_draft? && @category.present?
       if @category.id == SiteSetting.shared_drafts_category.to_i
         list.topics.each { |t| t.includes_destination_category = t.shared_draft.present? }
@@ -46,10 +43,7 @@ module TopicListConcern
 
     list.more_topics_url = construct_url_with(:next, list_opts)
     list.prev_topics_url = construct_url_with(:prev, list_opts)
-
-    respond_to do |format|
-      format.json { render_serialized(list, PostListSerializer) }
-    end
+    list
   end
 
   def page_params

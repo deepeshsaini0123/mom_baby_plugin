@@ -4,12 +4,22 @@ class TopicController < ApplicationController
   attr_accessor :current_user
 
   def index
-    list_opts = build_topic_list_options
-    user = list_target_user
-    list = TopicQuery.new(user, list_opts).public_send("list_latest")
+    list = get_discourse_response('latest')
 
     respond_to do |format|
       format.json { render_serialized(list, PostListSerializer) }
+    end
+  end
+
+  def tranding
+    all_topics = Category.where.not(parent_category_id: nil)
+
+    all_topics = all_topics
+      .includes(:topics)
+      .order("post_count DESC")
+
+    respond_to do |format|
+      format.json { render_serialized(all_topics, MomVerseCategorySerializer) }
     end
   end
 
@@ -22,15 +32,21 @@ class TopicController < ApplicationController
   end
 
   def latest
-    get_discourse_response('latest')
+    @list = get_all_topics.order(created_at: :desc)
+
+    render_topic_list
   end
 
   def top
-    get_discourse_response('top')
+    @list = get_all_topics.order(created_at: :desc)
+
+    render_topic_list
   end
 
   def hot
-    get_discourse_response('hot')
+    @list = get_all_topics.order(created_at: :desc)
+
+    render_topic_list
   end
 
   def latest_feed
@@ -68,5 +84,11 @@ class TopicController < ApplicationController
     @topic_list = TopicQuery.new(nil).list_hot
 
     render "list", formats: [:rss]
+  end
+
+  private
+
+  def render_topic_list
+    render json: {topics: serialize_data(@list, TopicsListSerializer)}
   end
 end

@@ -5,8 +5,6 @@ Discourse::Application.routes.append do
   post "/create_new_user" => "admin_user#create_new_user"
   get "/list_admin_user" => "admin_user#list_admin_user"
 
-  get "mom_verse/categories" => "mom_verse_category#index"
-  get "mom_verse/topics" => "mom_verse_category#topics_list"
 
   scope :mom_verse do
     resources :follow, only: [:create, :destroy] do
@@ -26,11 +24,15 @@ Discourse::Application.routes.append do
     end
 
     # Additional topic-related routes
+    get "categories" => "mom_verse_category#index"
+    get "topics" => "mom_verse_category#topics_list"
     get "latest", to: "topic#latest"
     get "popular", to: "topic#hot"
     get "top", to: "topic#top"
-    get "tranding", to: "topic#hot"
+    get "tranding", to: "topic#tranding"
     get "latest_feed", to: "topic#latest_feed"
     get "show/:id", to: "topic#show"
+
+    get "search", to: "mom_verse_category#search"
   end
 end

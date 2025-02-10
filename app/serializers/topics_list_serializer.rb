@@ -1,6 +1,4 @@
-class TopicsListSerializer < ::ApplicationSerializer
-  include TopicTagsMixin
-
+class TopicsListSerializer < ActiveModel::Serializer
   attributes :id,
              :views,
              :liked_by_user,
@@ -33,6 +31,8 @@ class TopicsListSerializer < ::ApplicationSerializer
              :uploaded_logo_dark,
              :uploaded_background,
              :uploaded_background_dark
+
+  has_many :posts, serializer: MomVersePostSerializer, embed: :objects
 
   def created_by_id
     object.user&.id
